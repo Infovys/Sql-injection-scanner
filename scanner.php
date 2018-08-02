@@ -4,32 +4,23 @@ ini_set('max_execution_time', 1500);
 $text = '';
 Start();
 
-function Start() {
+function Start() 
+{
     
-        $site = $_REQUEST['site'];
-        $cmd = trim($site);       
-        full($cmd);
-            
+    $site = $_REQUEST['site'];
+    $cmd = trim($site);       
+    full($cmd);          
      
 }
 
-
-
-
-
-
-function full($site) {
-
+function full($site)
+{
     print "[-] Start SQL Injection Scan\n";
     sql($site, 1);
 }
 
-
-
-
-
-
-function sql($site = '', $full = '0') {
+function sql($site = '', $full = '0')
+{
     $sql_error = array(
         'You have an error in your SQL',
         'Division by zero in',
@@ -80,13 +71,6 @@ function sql($site = '', $full = '0') {
 
   }
   }
-  
-
-
-
-
-
-
 function con_host($host) {
     $ch = curl_init($host);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -115,7 +99,8 @@ function find_link($site) {
  }
 }
 
-function Get_Info($site) {
+function Get_Info($site)
+{
     if($info = con_host($site)) {
         preg_match("/Content-Type:(.+)/", $info, $type);
         preg_match("/Server:(.+)/", $info, $server);
